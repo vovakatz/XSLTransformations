@@ -13,27 +13,27 @@ namespace XSLTransformations.Controllers
     {
         public ActionResult Navigation()
         {
-            List<NavigationLink> links = CreateObject(4);
+            List<NavigationLink> links = CreateObject(7);
             string xml = Helper.SerializeToString(links);
-            object navigationString = Helper.ApplyXSLT(xml, "C:\\Playground\\XSLTransformations\\XSLTransformations\\XSLTransformations\\Assets\\navigation.xslt");
+            object navigationString = Helper.ApplyXSLT(xml, Server.MapPath("~/Assets/navigation.xslt"));
 
             return View("Index", navigationString);
         }
-
+        
         public ActionResult NavigationWithCSharpCode()
         {
-            List<NavigationLink> links = CreateObject(4);
+            List<NavigationLink> links = CreateObject(5);
             string xml = Helper.SerializeToString(links);
-            object navigationString = Helper.ApplyXSLT(xml, "C:\\Playground\\XSLTransformations\\XSLTransformations\\XSLTransformations\\Assets\\navigation_with_code.xslt");
+            object navigationString = Helper.ApplyXSLT(xml, Server.MapPath("~/Assets/navigation_with_code.xslt"));
 
             return View("Index", navigationString);
         }
 
         public ActionResult NavigationWithSaxon()
         {
-            List<NavigationLink> links = CreateObject(4);
+            List<NavigationLink> links = CreateObject(2);
             string xml = Helper.SerializeToString(links);
-            object navigationString = Helper.TransformUsingSaxon(xml, "C:\\Playground\\XSLTransformations\\XSLTransformations\\XSLTransformations\\Assets\\navigation_with_code.xslt");
+            object navigationString = Helper.TransformUsingSaxon(xml, Server.MapPath("~/Assets/navigation.xslt"));
 
             return View("Index", navigationString);
         } 
@@ -42,7 +42,7 @@ namespace XSLTransformations.Controllers
         {
             if (levels > 0)
             {
-                Thread.Sleep(5);
+                //Thread.Sleep(5);
                 Random rnd = new Random();
                 int children = rnd.Next(1, 10);
                 List<NavigationLink> links = new List<NavigationLink>();
@@ -50,7 +50,7 @@ namespace XSLTransformations.Controllers
                 for (int i = 0; i < children; i++)
                 {
                     NavigationLink link = new NavigationLink();
-                    link.Text = Helper.RandomString(5) + "(" + levels + ")";
+                    link.Text = Helper.RandomString(5) + "(" + (levels - 1) + ")";
                     link.Url = "http://www.google.com";
                     link.NavigationLinks = CreateObject(levels - 1);
                     links.Add(link);
